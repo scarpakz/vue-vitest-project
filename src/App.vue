@@ -60,5 +60,7 @@ onMounted(async () => {
   max-height: 500px;
   min-height: 700px;
   overflow-y: scroll;
+  background-color: azure;
+  font-family: 'monospace';
 }
 </style>
