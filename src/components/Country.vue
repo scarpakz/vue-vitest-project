@@ -6,12 +6,12 @@
 			<p class="header-subtitle">{{ country?.name?.official }}</p>
 		</div>
 
-		<div class="section border-bottom">
+		<div class="section border-bottom" v-for="[key,value] in Object.entries(country?.name?.nativeName)">
 			<p class="section-label">Native name</p>
-			<p class="section-value">République de Côte d'Ivoire</p>
+			<p class="section-value">{{ value.official }}</p>
 			<p class="section-secondary">
-				Côte d'Ivoire
-				<span class="badge">fra</span>
+				{{ value.common }}
+				<span class="badge">{{key}}</span>
 			</p>
 		</div>
 
@@ -22,11 +22,11 @@
 
 		<div class="section">
 			<p class="section-label">Currency</p>
-			<div class="currency-row">
-				<div class="symbol" :class="randomColor">Fr</div>
+			<div class="flex flex-col items-center" v-for="[key, value] in Object.entries(country?.currencies)">
+				<div class="symbol" :class="randomColor">{{ value.symbol }}</div>
 				<div>
-					<p class="currency-name">West African CFA franc</p>
-					<p class="currency-code">XOF</p>
+					<p class="currency-name">{{ value.name }}</p>
+					<p class="currency-code">{{ key }}</p>
 				</div>
 			</div>
 		</div>
