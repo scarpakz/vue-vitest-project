@@ -1,53 +1,55 @@
 <template>
-  <div class="min-h-screen flex justify-center bg-gray-100">
+  <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="bg-white shadow-lg rounded-2xl p-8 text-center w-100">
       
       <h1 class="text-4xl font-semibold mb-4">
-        Vitest Demo
+        Vitest
       </h1>
-      <div>
-        <button 
-        @click="displayCountries()"
-        class="group relative inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-3 font-semibold text-white transition-all hover:bg-sky-400 active:scale-95 shadow-lg shadow-sky-500/20">
-          <span>Get Countries</span>
-          <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </button>
-        <!-- <button class="group relative inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-3 font-semibold text-white transition-all hover:bg-sky-400 active:scale-95 shadow-lg shadow-sky-500/20">
-          <span>Countries</span>
-          <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </button>
-        <button class="group relative inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-3 font-semibold text-white transition-all hover:bg-sky-400 active:scale-95 shadow-lg shadow-sky-500/20">
-          <span>Countries</span>
-          <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
-        </button> -->
-      </div>
-      <p v-if="activeLink.country" class="autoscroll">
-        {{ getCountries }}
-      </p>
-
+      <div class="max-w-full">
+        <label for="Headline" class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-1.5 ml-1">
+          Country Selection
+        </label>
+          <div class="relative my-2">
+            <select 
+              v-model="selectedCountry"
+              @change="handleChange"
+              name="Headline" 
+              id="Headline" 
+              class="w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-medium text-slate-700 shadow-sm outline-none transition-all focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 cursor-pointer"
+            >
+              <option value="">Choose</option>
+              <option :value="item" v-for="item in sortCountries" :key="item">{{ item }}</option>
+            </select>
+            
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      <Country :data="getCountry"/>
     </div>
   </div>
 </template>
 <script setup>
 import { useCountryStore } from '@/store/api'
-import { ref, computed } from 'vue';
-import { onMounted } from 'vue';
+import { ref, computed } from 'vue'
+import { onMounted } from 'vue'
+import Country from '@/components/Country.vue'
 
 const countryStore = useCountryStore()
+const selectedCountry = ref('')
+const data = ref()
 
-const activeLink = ref({
-  country: false
+const sortCountries = computed(() => {
+  return countryStore.countries.map(item => item.name.common).sort((a,b) => a.localeCompare(b))
 })
 
-const getCountries = computed(() => countryStore.countries)
-
-const displayCountries = () => {activeLink.value.country === true ? activeLink.value.country = false : activeLink.value.country = true}
+const handleChange = () => {
+  data.value = countryStore.countries.filter(item => item.name.common === selectedCountry.value)
+}
+const getCountry = computed(() => data.value)
 
 onMounted(async () => {
   await countryStore.processData()
@@ -56,11 +58,5 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.autoscroll {
-  max-height: 500px;
-  min-height: 700px;
-  overflow-y: scroll;
-  background-color: azure;
-  font-family: 'monospace';
-}
+
 </style>

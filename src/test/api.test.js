@@ -1,4 +1,4 @@
-import {expect, test, describe, it} from "vitest";
+import {expect, test, describe} from "vitest";
 import {getCountries} from '@/api/api'
 
 describe('This test the countries API data', () => {
