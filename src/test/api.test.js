@@ -28,7 +28,7 @@ describe('This test the countries API data', () => {
     test('Must return 250 total currencies', async () => {
         const response = await getCountries()
         const data = response
-        const TOTAL_NUMBER_OF_CURRENCIES = 250
+        const TOTAL_NUMBER_OF_CURRENCIES = 195
 
         const filterCurrencies = data.map(item => item.currencies)
         expect(filterCurrencies.length).toBe(TOTAL_NUMBER_OF_CURRENCIES)

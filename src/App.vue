@@ -29,6 +29,7 @@
         </div>
       <Country :data="getCountry"/>
     </div>
+    <Note class="ml-4" />
   </div>
 </template>
 <script setup>
@@ -36,6 +37,7 @@ import { useCountryStore } from '@/store/api'
 import { ref, computed } from 'vue'
 import { onMounted } from 'vue'
 import Country from '@/components/Country.vue'
+import Note from '@/components/Note.vue'
 
 const countryStore = useCountryStore()
 const selectedCountry = ref('')
