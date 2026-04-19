@@ -25,7 +25,7 @@ describe('This test the countries API data', () => {
         })
     })
 
-    test('Must return 250 total currencies', async () => {
+    test('Must return 195 total currencies', async () => {
         const response = await getCountries()
         const data = response
         const TOTAL_NUMBER_OF_CURRENCIES = 195
